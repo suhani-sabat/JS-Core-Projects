@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tech Stack Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <form>
+      <div id="notification-container"></div>
+      <label for="tech">Tech Stack:</label>
+      <input type="text" id="tech" name="tech" />
+      <br />
+      <label for="proficiency">Proficiency:</label>
+      <input
+        type="range"
+        id="proficiency"
+        name="proficiency"
+        min="0"
+        max="100"
+      />
+      <br />
+      <button type="submit">Add</button>
+    </form>
+    <input type="text" placeholder="search here.." id="search-box" />
+    <ul></ul>
+
+    <script src="script.js"></script>
+  </body>
+</html>

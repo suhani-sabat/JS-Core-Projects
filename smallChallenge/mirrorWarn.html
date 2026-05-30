@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirror & Warn</title>
+</head>
+<body>
+    <input type="text" id="box">
+    <p>Waiting for you to type...</p>
+    <script>
+        let input = document.querySelector("#box")
+        let para = document.querySelector("p")
+        let char = 0
+        
+        input.addEventListener("input", () => {
+            let currText = input.value
+            if(currText.length === 0){
+                para.innerText = "Waiting for you to type..."
+                para.style.color = "black"
+            }else{
+                para.innerText = currText
+                if(currText.length > 10){
+                    para.style.color = "red"
+                }else{
+                    para.style.color = "black"
+                }
+            }
+        })
+    </script>
+</body>
+</html>

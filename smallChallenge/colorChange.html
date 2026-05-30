@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice</title>
+</head>
+<body>
+    <h1>Current Color: White</h1>
+    <button>Click me!</button>
+    <script>
+        let arr = ['red', 'blue', 'green', 'yellow', 'purple']
+        let h1 = document.querySelector("h1")
+        let btn = document.querySelector("button")
+        let i = 0
+        btn.addEventListener("click", () => {
+            document.querySelector("body").style.backgroundColor = arr[i];
+            h1.innerText = "Current Color: "+arr[i];
+            i++;
+
+            if(i === arr.length){
+                i = 0
+            }
+        })
+    </script>
+</body>
+</html>

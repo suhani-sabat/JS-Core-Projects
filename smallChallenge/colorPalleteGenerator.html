@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Generator</title>
+</head>
+<body>
+    <div id="color-palette"></div>
+    <br>
+    <label for="base-color">Choose Base Color: </label>
+    <input type="color" id="base-color" value="#0047AB">
+    <br><br>
+    
+    <input type="text" id="color-count" placeholder="Enter no. of colors (Default: 5)">
+    <button id="generate-color">Generate Color Palette</button>
+
+    <script>
+        const btn = document.querySelector("#generate-color");
+        const colorPalette = document.querySelector("#color-palette");
+        const input = document.querySelector("#color-count");
+        const colorPicker = document.querySelector("#base-color"); // Grab the color picker
+
+        // 2. Added cleanHex parameter to accept any starting color dynamically
+        async function generateColorPalette(cleanHex, colorCount) {
+            try {
+                // 3. Replaced the hardcoded '0047AB' with our dynamic variable
+                const response = await fetch(`https://www.thecolorapi.com/scheme?hex=${cleanHex}&mode=monochrome&count=${colorCount}`);
+                const data = await response.json();
+                
+                let colors = data.colors;
+                colorPalette.innerHTML = "";
+                
+                colors.forEach(color => {
+                    const colorDiv = document.createElement("div");
+                    const hexCode = color.hex.value;
+
+                    colorDiv.style.backgroundColor = hexCode;
+                    colorDiv.style.width = "120px";
+                    colorDiv.style.height = "120px";
+                    colorDiv.style.display = "inline-block";
+                    colorDiv.style.margin = "5px";
+                    
+                    colorDiv.style.color = "#fff"; 
+                    colorDiv.style.textShadow = "0px 1px 3px rgba(0,0,0,0.8)"; 
+                    colorDiv.style.textAlign = "center";
+                    colorDiv.style.lineHeight = "120px"; 
+                    colorDiv.style.fontFamily = "sans-serif";
+                    colorDiv.style.fontSize = "14px";
+                    
+                    colorDiv.textContent = hexCode;
+                    colorPalette.appendChild(colorDiv);
+                });
+            } catch(error) {
+                console.error("Something went wrong!", error);
+            }
+        }
+
+        btn.addEventListener("click", () => {
+            let colorCount = parseInt(input.value) || 5;
+            
+            // 4. Get the picked hex value (e.g., "#ff5733") and strip off the "#" to make it "ff5733"
+            let pickedColor = colorPicker.value;
+            let cleanHex = pickedColor.replace("#", "");
+            
+            generateColorPalette(cleanHex, colorCount);
+        });
+    </script>
+</body>
+</html>

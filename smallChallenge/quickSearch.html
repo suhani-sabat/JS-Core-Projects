@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Search</title>
+    <link rel="icon" href="data:," />
+  </head>
+  <body>
+    <input type="text" id="search-box" placeholder="Search skill"/>
+    <ul></ul>
+    <script>
+      const arr = [
+        {
+          name: "Javascript",
+          type: "frontend",
+        },
+        {
+          name: "Python",
+          type: "backend",
+        },
+        {
+          name: "React",
+          type: "frontend",
+        },
+        {
+          name: "Angular",
+          type: "frontend",
+        },
+      ];
+      let input = document.querySelector("#search-box");
+      let ul = document.querySelector("ul");
+
+      input.addEventListener("input", () => {
+        let val = input.value.toLowerCase();
+        if (val === "") {
+          ul.innerText = " ";
+          return;
+        } else {
+          ul.innerText = " ";
+          let filteredarr = arr.filter((obj) =>
+            obj.name.toLowerCase().includes(val),
+          );
+
+          if (filteredarr.length === 0) {
+            let li = document.createElement("li");
+            li.innerText = "No results found";
+            ul.appendChild(li);
+          } else {
+            filteredarr.forEach((item) => {
+              let li = document.createElement("li");
+              li.innerText = item.name;
+              ul.appendChild(li);
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
