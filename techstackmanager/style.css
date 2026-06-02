@@ -1,25 +1,261 @@
+/* ==========================================================================
+   TECH STACK MANAGER - PREMIUM UI LAYOUT ENGINE
+   ========================================================================== */
+
+:root {
+    --bg-main: #090d16;
+    --panel-bg: rgba(17, 24, 39, 0.7);
+    --border-color: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-muted: #64748b;
+    
+    /* System Accents */
+    --accent-neon: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.15);
+    --action-delete: #ef4444;
+    --action-edit: #10b981;
+}
+
+/* Base Body Environment Setup */
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Application Heading Effect via Pure CSS Injection */
+body::before {
+    content: "TECH STACK METRICS CORE";
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.25em;
+    color: var(--accent-neon);
+    margin-bottom: 24px;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Master Layout Wrapper (Form, Search Box, and List share this size) */
+form, #search-box, ul {
+    width: 100%;
+    max-width: 520px;
+    box-sizing: border-box;
+}
+
+/* Master Form Configuration */
+form {
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+}
+
+/* Label Structures */
+label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+/* Text Input Fields (Add Field & Search Box) */
+input[type="text"] {
+    background: #0f172a;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus {
+    border-color: var(--accent-neon);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Hide raw layout breaks explicitly to let flexbox/margins dictate flow */
+br {
+    display: none;
+}
+
+/* Adjust distance for the second field since br is dead */
+label[for="proficiency"] {
+    margin-top: 18px;
+}
+
+/* Custom Styled Range Slider */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+    margin: 14px 0 20px 0;
+    display: block;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #0f172a;
+    height: 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -6px;
+    background-color: var(--accent-neon);
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent-neon);
+    transition: transform 0.1s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.25);
+}
+
+/* Global Button Archetype Base */
+button {
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Main Form Submission Button (Add/Save) */
+form button[type="submit"] {
+    width: 100%;
+    background: var(--accent-neon);
+    color: #090d16;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+form button[type="submit"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(56, 189, 248, 0.35);
+}
+
+/* Isolated Global Search Box Customizations */
+#search-box {
+    margin-bottom: 20px;
+    border-left: 3px solid var(--accent-neon);
+}
+
+/* Skills Content Engine (Unordered List) Container */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Dynamic List Item Rows */
+ul li {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid var(--border-color);
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s ease;
+    animation: renderFade 0.25s ease-out;
+}
+
+ul li:hover {
+    border-color: #334155;
+}
+
+@keyframes renderFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Text Element Layout Structure inside Row */
+.skill-info {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+/* Action Control Alignment Box */
+.action-controls {
+    display: flex;
+    gap: 8px;
+}
+
+/* Secondary Button Layout Engine (Edit / Delete Inner Options) */
+.action-controls button {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+/* Edit Color Rules */
+.action-controls button:nth-of-type(1) {
+    color: var(--action-edit);
+}
+.action-controls button:nth-of-type(1):hover {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--action-edit);
+}
+
+/* Delete Color Rules */
+.action-controls button:nth-of-type(2) {
+    color: var(--action-delete);
+}
+.action-controls button:nth-of-type(2):hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--action-delete);
+}
+
+/* Dynamic Toast Notification Positioning Rules */
 #notification-container {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 1000;
+    z-index: 10000;
 }
 
 .toast-alert {
-    background-color: #ff4d4d;
+    background: rgba(127, 29, 29, 0.95);
+    border-left: 5px solid var(--action-delete);
+    backdrop-filter: blur(8px);
     color: white;
     padding: 16px 24px;
     margin-bottom: 10px;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    font-family: sans-serif;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     font-weight: bold;
-    min-width: 250px;
-    /* This makes it slide in gracefully from the right side */
-    animation: slideIn 0.3s ease-out;
+    min-width: 280px;
+    animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
+    from { transform: translateX(120%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
 }

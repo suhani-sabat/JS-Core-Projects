@@ -3,43 +3,87 @@ let add_btn = document.querySelector("button");
 let ul = document.querySelector("ul");
 let editIdx = null;
 
+// Initialization Sequence Launcher
+addHandler();
+actionHandler();
+search();
+loadInitialData();
+
+/**
+ * Persistence Engine: Commits local application state to hardware memory string arrays
+ */
+function saveToLocalStorage() {
+    localStorage.setItem("techStackData", JSON.stringify(arr));
+}
+
+/**
+ * Asynchronous Data Stream Bootstrapper
+ * Prioritizes persistent Local Cache before executing remote fetch calls
+ */
 async function loadInitialData() {
+  const localCache = localStorage.getItem("techStackData");
+  
+  if (localCache) {
+    console.log("⚡ Loading persistent data from LocalStorage Cache...");
+    arr = JSON.parse(localCache);
+    renderlist(arr);
+    return; // Fast return to save server bandwidth
+  }
+
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=4");
     const serverData = await response.json();
     
     arr = serverData.map(item => ({
       name: item.title,
-      type: "75" 
+      type: "75" // Default proficiency baseline for initial remote logs
     }));
     
+    saveToLocalStorage(); // Lock initial down-stream data into local memory
     renderlist(arr);
   } catch (error) {
     console.error("Error loading startup data:", error);
-    // FIXED: Show toast to the user if initial fetch fails!
     showToast("⚠️ Error: Failed to load tech stack from server.");
   }
 }
 
+/**
+ * Dynamic DOM Structural Builder
+ * Compiles rows matching your CSS flexbox specs
+ */
 function renderlist(targetArray) {
   ul.innerHTML = "";
   targetArray.forEach((element, index) => {
     let li = document.createElement("li");
-    li.textContent = `Skill: ${element.name} | Proficiency: ${element.type} `;
+    
+    // Wrap target item descriptions inside a separate component block
+    let textSpan = document.createElement("span");
+    textSpan.className = "skill-info";
+    textSpan.textContent = `⚡ Skill: ${element.name} | Proficiency: ${element.type}%`;
+    li.appendChild(textSpan);
 
-    let delete_btn = document.createElement("button");
-    delete_btn.innerText = "Delete";
-    delete_btn.setAttribute("data-id", index);
-    li.appendChild(delete_btn);
+    // Group control action components together for CSS right alignment
+    let actionControls = document.createElement("div");
+    actionControls.className = "action-controls";
 
     let edit_btn = document.createElement("button");
     edit_btn.innerText = "Edit";
     edit_btn.setAttribute("data-id", index);
-    li.appendChild(edit_btn);
+    actionControls.appendChild(edit_btn);
+
+    let delete_btn = document.createElement("button");
+    delete_btn.innerText = "Delete";
+    delete_btn.setAttribute("data-id", index);
+    actionControls.appendChild(delete_btn);
+
+    li.appendChild(actionControls);
     ul.appendChild(li);
   });
 }
 
+/**
+ * Action Controller: Handles data append and mutations to remote server + local cache
+ */
 function addHandler() {
   add_btn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -63,6 +107,7 @@ function addHandler() {
             arr[editIdx] = myArr;
             editIdx = null;
             add_btn.innerText = "Add";
+            saveToLocalStorage(); // Synchronize persistent memory cache
             renderlist(arr);
           }
         } catch (error) {
@@ -78,20 +123,24 @@ function addHandler() {
 
           if (response.ok) {
             arr.push(myArr);
+            saveToLocalStorage(); // Synchronize persistent memory cache
             renderlist(arr);
           }
         } catch (error) {
-          // FIXED: Swapped old alert() for your custom toast engine!
           showToast("⚠️ Network Error: Could not save new item to the server.");
         }
       }
 
       skill.value = "";
-      proficiency.value = "50";
+      proficiency.value = "50"; // Reset slider indicator to baseline middle path
     }
   });
 }
 
+/**
+ * Event Delegation Core Matrix
+ * Intercepts dynamically generated component click paths securely
+ */
 function actionHandler() {
   ul.addEventListener("click", async (e) => {
     if (e.target.tagName === "BUTTON") {
@@ -105,6 +154,7 @@ function actionHandler() {
 
           if (response.ok) {
             arr.splice(targetIdx, 1);
+            saveToLocalStorage(); // Clean persistent copy
             renderlist(arr);
           }
         } catch (error) {
@@ -121,6 +171,9 @@ function actionHandler() {
   });
 }
 
+/**
+ * Linear Dynamic Query Array Filter Module
+ */
 function search() {
   let searchBox = document.querySelector("#search-box");
   searchBox.addEventListener("input", () => {
@@ -135,7 +188,8 @@ function search() {
     if (filteredArr.length === 0) {
       ul.innerHTML = "";
       let li = document.createElement("li");
-      li.textContent = "No skill found";
+      li.className = "skill-info";
+      li.textContent = "❌ No matching system stack component discovered.";
       ul.appendChild(li);
     } else {
       renderlist(filteredArr);
@@ -143,6 +197,9 @@ function search() {
   });
 }
 
+/**
+ * Hardware Overlay Component: Drops transient error logs over current view thread
+ */
 function showToast(message) {
     const container = document.querySelector("#notification-container");
     const toast = document.createElement("div");
@@ -155,9 +212,3 @@ function showToast(message) {
         toast.remove();
     }, 4000);
 }
-
-// Initialization Sequence
-addHandler();
-actionHandler();
-search();
-loadInitialData();
