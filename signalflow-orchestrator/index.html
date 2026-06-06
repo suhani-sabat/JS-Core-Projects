@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalFlow: Real-Time Event Orchestrator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <header>
+            <h1>SignalFlow Engine</h1>
+            <div id="connection-status">SYSTEM OPERATIONAL</div>
+        </header>
+
+        <section class="metrics-grid">
+            <div class="card info-card">
+                <h3>Total Streams</h3>
+                <p id="metric-total">0</p>
+            </div>
+            <div class="card warning-card">
+                <h3>Warnings Caught</h3>
+                <p id="metric-warning">0</p>
+            </div>
+            <div class="card critical-card">
+                <h3>Critical Failures</h3>
+                <p id="metric-critical">0</p>
+            </div>
+        </section>
+
+        <section class="control-bar">
+            <input type="text" id="stream-search" placeholder="Filter live logs by keyword...">
+            
+            <select id="severity-filter">
+                <option value="all">All Severities</option>
+                <option value="info">Info Only</option>
+                <option value="warning">Warning Only</option>
+                <option value="critical">Critical Only</option>
+            </select>
+            
+            <button id="stream-toggle-btn">Pause Stream</button>
+        </section>
+
+        <main class="console-wrapper">
+            <div class="console-header">Live System Data Feed</div>
+            <ul id="log-stream-list"></ul>
+        </main>
+    </div>
+
+    <div id="notification-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
